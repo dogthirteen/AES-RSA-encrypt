@@ -1,0 +1,20 @@
+# AES-RSA-encrypt
+
+## Project setup
+```
+yarn install
+```
+
+### Compiles and hot-reloads for development
+```
+yarn dev
+```
+
+### 简介
+```
+AES 加解密类型使用 ECB；CBC方法需要提供IV偏移量
+后端生成 AES密钥（密钥格式长度16的字符串，本项目工具包函数有提供生成AES密钥方法）加密data数据（加密方法使用AES）; 再用RSA密钥 加密AES密钥（加密方法使用RSA） 返回 加密ASE密钥  加密data
+前端 拿到加密ASE密钥  加密data； 使用RSA密钥（后端提供）对加密ASE密钥 进行解密（解密方法使用RSA）
+再使用解密的AES密钥对 加密数据进行解密（解密密方法使用AES）
+```
+

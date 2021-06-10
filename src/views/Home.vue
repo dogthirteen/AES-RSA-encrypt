@@ -9,8 +9,7 @@
 </template>
 
 <script>
-import RSAUtil from '@/utils/RSAUtil';
-import AESUtil from '@/utils/AESUtil';
+import encry from '@/utils/encryUtils'
 export default {
   name: 'Home',
   data() {
@@ -46,37 +45,38 @@ export default {
         /vleNiEOfq6/jw==
         -----END PRIVATE KEY-----
 `, //RSA密钥
-    };
+    }
   },
   created() {
+  console.log('encry',encry);
     // 生产AES密钥
-    this.aesKey = AESUtil.createAesKey();
+    this.aesKey = encry.createAesKey()
     // const aesKey = '21jgsi1a3paulr78'; //密钥格式为长度16得字符串
-    console.log('生成AES密钥:', this.aesKey);
+    console.log('生成AES密钥:', this.aesKey)
 
     // 用生成的 AES 密钥加密数据
-    this.encryptedData = AESUtil.encryptByECB('我是傻逼', this.aesKey);
+    this.encryptedData = encry.encryptByECB('你快乐吗', this.aesKey)
     // this.encryptedData = `HKY6FLv2apfWCPTaDBaPTy7zxRLRJZCbMbv75tvJGOM=`;
     // 用 RSA 公钥加密 AES密钥
-    this.encryptedAesKey = RSAUtil.publicEncrypt(this.aesKey, this.rsaPublicKey);
+    this.encryptedAesKey = encry.publicEncrypt(this.aesKey, this.rsaPublicKey)
     // this.encryptedAesKey = `YUxi/pWfkPeERjptnhpGjHLm04nVKunr6fZeiJ0RZ2CmqVITtrDgOX1gFJSQGweeqZ2y2TT3fYn+WDmrRwck99qSb3rzuYLHKV763twWyl1GQySrbwW23Veckz4vdioZCz6/3v78IPX8bHxmeEyTkm4RgU0vXB+zL6BvLCasTzc=`;
-    console.log('加密AES密钥:', this.encryptedAesKey);
+    console.log('加密AES密钥:', this.encryptedAesKey)
 
     this.encrypted = {
-      aesKey:this.aesKey, //AES密钥
-      encryptedAesKey:this.encryptedAesKey, //加密的AES密钥
-      encryptedData:this.encryptedData, //加密后的data
-    };
-    console.log('encrypted:', JSON.stringify(this.encrypted));
+      aesKey: this.aesKey, //AES密钥
+      encryptedAesKey: this.encryptedAesKey, //加密的AES密钥
+      encryptedData: this.encryptedData, //加密后的data
+    }
+    console.log('encrypted:', JSON.stringify(this.encrypted))
 
     // 用RSA密钥解码 AES 密钥
-    this.decryptedAesKey = RSAUtil.privateDecrypt(this.encryptedAesKey, this.rsaPrivateKey);
-    console.log('解码AES 密钥:', this.decryptedAesKey);
+    this.decryptedAesKey = encry.privateDecrypt(this.encryptedAesKey, this.rsaPrivateKey)
+    console.log('解码AES 密钥:', this.decryptedAesKey)
 
     // 用解码的AES密钥  解码数据
-    this.decryptedData = AESUtil.decryptByECB(this.encryptedData, this.decryptedAesKey);
+    this.decryptedData = encry.decryptByECB(this.encryptedData, this.decryptedAesKey)
 
-    console.log('解码数据:', this.decryptedData);
+    console.log('解码数据:', this.decryptedData)
 
     // this.decrypted = {
     //   decryptedAesKey,
@@ -84,10 +84,10 @@ export default {
     // };
   },
   methods: {},
-};
+}
 </script>
 <style>
-  p{
-    word-wrap: break-word;
-  }
+p {
+  word-wrap: break-word;
+}
 </style>
